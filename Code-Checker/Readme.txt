@@ -9,6 +9,6 @@ for example:= {2,5,67,89}
 rest in output put it with space sign in output.txt
 for example:= {4 10 134 178 }
 
-it's slight space-sensitive as per run.txt and output.txt both are trailing sensitive.
+it's slight char-sensitive as per run.txt and output.txt both are trailing sensitive.
 
 to run it write make in terminal oviously in makefile in that directory.
