@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Movie Recommender</title>
+    <style>
+      body {
+        background-color: #189ad3;
+        color: #bccad0;
+        text-align: center;
+      }
+      h1 {
+        position: relative;
+        border: 1px solid black;
+        border-radius: 1000px;
+        border-width: 480px;
+        background-color: #189bd3;
+        bottom: 450px;
+      }
+      #movie-search {
+        position: relative;
+        bottom: 900px;
+      }
+      #search-btn {
+        position: relative;
+        bottom: 900px;
+      }
+      #movie-info {
+        position: relative;
+        bottom: 900px;
+        margin-bottom: 50px;
+      }
+      #recommended-movies {
+        position: relative;
+        bottom: 900px;
+        color: white;
+      }
+     .rating {
+        font-size: 24px;
+        color: #ffd700;
+      }
+      .log_out {
+        position: absolute;
+        bottom: 500px;
+        left: 1000px;
+      }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" integrity="sha384-F3w7mX95PdgyTmZZMECAngseQB83DfGTowi0iMjiWaeVhAn4FJkqJByhZMI3AhiU" crossorigin="anonymous">
+  </head>
+  <body>
+    <h1>Movie-Recommendation Search</h1>
+    <input type="text" id="movie-search" placeholder="Enter movie name..." />
+    <button id="search-btn">Search</button>
+    <div id="movie-info"></div>
+    <div id="recommended-movies"></div>
+
+    <p  class="log_out">Do you want to log-out?<a href="index.html">Log-out</a></p>
+
+    <script>
+      const movieSearch = document.getElementById('movie-search');
+      const searchBtn = document.getElementById('search-btn');
+      const movieInfo = document.getElementById('movie-info');
+      const recommendedMovies = document.getElementById('recommended-movies');
+
+      searchBtn.addEventListener('click', () => {
+        const movieTitle = movieSearch.value.trim();
+        if (!movieTitle) {
+          movieInfo.textContent = '';
+          recommendedMovies.innerHTML = '';
+          return;
+        }
+
+        fetch(`movies.json`)
+        .then(response => response.json())
+        .then(data => {
+            const movie = data.find(m => m['Movie Name'].toLowerCase() === movieTitle.toLowerCase());
+            if (!movie) {
+              movieInfo.textContent = `No movie found with title "${movieTitle}"`;
+              recommendedMovies.innerHTML = '';
+              return;
+            }
+
+            movieInfo.innerHTML = `
+              <h2 class="Movie">${movie['Movie Name']} (${movie['Year']})</h2>
+              <img src="${movie['Image']}" alt="${movie['Movie Name']}" />
+              <p class="Director"><strong>Director:</strong> ${movie['Director']}</p>
+              <p class="starrer"><strong>Starrer:</strong> ${movie['Starrer']}</p>
+              <p class="Genere"><strong>Genere:</strong> ${movie['Genere']}</p>
+              <p class="Summary"><strong>Summary:</strong> ${movie['Summary']}</p>
+              <p class="Runtime"><strong>Runtime and rating:</strong> ${movie['Run time & Rated']}</p>
+              <p class="IMDb"><strong>IMDb:</strong> ${movie['IMDb-Rating']}</p>
+              <p class="voting"><strong>Voting:</strong> ${movie['Voting']}</p>
+              <p class="rating">
+                <span>Rate this movie:</span>
+                <span class="rating-stars">
+                  <i class="fa fa-star" aria-hidden="true" data-rating="1"></i>
+                  <i class="fa fa-star" aria-hidden="true" data-rating="2"></i>
+                  <i class="fa fa-star" aria-hidden="true" data-rating="3"></i>
+                  <i class="fa fa-star" aria-hidden="true" data-rating="4"></i>
+                  <i class="fa fa-star" aria-hidden="true" data-rating="5"></i>
+                </span>
+              </p>
+            `;
+
+            const recommendedMoviesData = getRecommendedMovies(data, movie);
+            const recommendedMoviesHtml = recommendedMoviesData.map(m => `
+              <div>
+                <h3>${m['Movie Name']} (${m['Year']})</h3>
+                <img src="${m['Image']}" alt="${m['Movie Name']}" />
+              </div>
+            `).join('');
+            recommendedMovies.innerHTML = `
+              <h2>Recommended Movies</h2>
+              ${recommendedMoviesHtml}
+            `;
+          })
+        .catch(error => {
+            console.error('Error fetching data:', error);
+            movieInfo.textContent = 'An error occurred while searching for the movie.';
+          });
+      });
+
+      movieSearch.addEventListener('input', () => {
+        const movieTitle = movieSearch.value.trim();
+        if (!movieTitle) {
+          movieInfo.textContent = '';
+          recommendedMovies.innerHTML = '';
+          return;
+        }
+
+        fetch(`movies.json`)
+        .then(response => response.json())
+        .then(data => {
+            const movie = data.find(m => m['Movie Name'].toLowerCase() === movieTitle.toLowerCase());
+            if (!movie) {
+              movieInfo.textContent =`No movie found with title "${movieTitle}"`;
+              recommendedMovies.innerHTML = '';
+              return;
+            }
+
+            movieInfo.innerHTML = `
+              <h2 class="Movie">${movie['Movie Name']} (${movie['Year']})</h2>
+              <img src="${movie['Image']}" alt="${movie['Movie Name']}" />
+              <p class="Director"><strong>Director:</strong> ${movie['Director']}</p>
+              <p class="starrer"><strong>Starrer:</strong> ${movie['Starrer']}</p>
+              <p class="Genere"><strong>Genere:</strong> ${movie['Genere']}</p>
+              <p class="Summary"><strong>Summary:</strong> ${movie['Summary']}</p>
+              <p class="Runtime"><strong>Runtime and rating:</strong> ${movie['Run time & Rated']}</p>
+              <p class="IMDb"><strong>IMDb:</strong> ${movie['IMDb-Rating']}</p>
+              <p class="voting"><strong>Voting:</strong> ${movie['Voting']}</p>
+              <p class="rating">
+                <span>Rate this movie:</span>
+                <span class="rating-stars">
+                  <i class="fa fa-star" aria-hidden="true" data-rating="1"></i>
+                  <i class="fa fa-star" aria-hidden="true" data-rating="2"></i>
+                  <i class="fa fa-star" aria-hidden="true" data-rating="3"></i>
+                  <i class="fa fa-star" aria-hidden="true" data-rating="4"></i>
+                  <i class="fa fa-star" aria-hidden="true" data-rating="5"></i>
+                </span>
+              </p>
+            `;
+
+            const recommendedMoviesData = getRecommendedMovies(data, movie);
+            const recommendedMoviesHtml = recommendedMoviesData.map(m => `
+              <div>
+                <h3>${m['Movie Name']} (${m['Year']})</h3>
+                <img src="${m['Image']}" alt="${m['Movie Name']}" />
+              </div>
+            `).join('');
+            recommendedMovies.innerHTML = `
+              <h2>Recommended Movies</h2>
+              ${recommendedMoviesHtml}
+            `;
+          })
+        .catch(error => {
+            console.error('Error fetching data:', error);
+            movieInfo.textContent = 'An error occurred while searching for the movie.';
+          });
+      });
+
+      function getRecommendedMovies(data, movie) {
+        const recommendedMovies = [];
+
+        const similarNameMovies = data.filter(m => m['Movie Name'].toLowerCase().includes(movie['Movie Name'].toLowerCase()) && m['Movie Name']!== movie['Movie Name']);
+        recommendedMovies.push(...similarNameMovies.slice(0, 3));
+
+        const sameDirectorMovies = data.filter(m => m['Director'] === movie['Director'] && m['Movie Name']!== movie['Movie Name']);
+        recommendedMovies.push(...sameDirectorMovies.slice(0, 3));
+
+        const sameStarrerMovies = data.filter(m => m['Starrer'].split(', ').includes(movie['Starrer'].split(', ')[0]) && m['Movie Name']!== movie['Movie Name']);
+        recommendedMovies.push(...sameStarrerMovies.slice(0, 3));
+
+        const sameGenreMovies = data.filter(m => m['Genere'] === movie['Genere'] && m['Movie Name']!== movie['Movie Name']);
+        recommendedMovies.push(...sameGenreMovies.slice(0, 3));
+
+        const similarRuntimeMovies = data.filter(m => Math.abs(m['Run time & Rated'].split(' ')[0] - movie['Run time & Rated'].split(' ')[0]) < 30 && m['Movie Name']!== movie['Movie Name']);
+        recommendedMovies.push(...similarRuntimeMovies.slice(0, 3));
+
+        const highRatingMovies = data.filter(m => parseFloat(m['IMDb-Rating'].replace(',', '.')) > 7 && m['Movie Name']!== movie['Movie Name']);
+        recommendedMovies.push(...highRatingMovies.slice(0, 3));
+
+        const uniqueRecommendedMovies = [...new Set(recommendedMovies.map(m => m['Movie Name']))].map(name => {
+          const movie = data.find(m => m['Movie Name'] === name);
+          return {
+            'Movie Name': movie['Movie Name'],
+            'Year': movie['Year'],
+            'Image': movie['Image'],
+            'Director': movie['Director'],
+            'Starrer': movie['Starrer'],
+            'Genere': movie['Genere'],
+            'IMDb-Rating': movie['IMDb-Rating']
+          };
+        }).slice(0, 5);
+
+        return uniqueRecommendedMovies;
+      }
+
+      const ratingStars = document.querySelectorAll('.rating-stars i');
+      ratingStars.forEach(star => {
+        star.addEventListener('click', () => {
+          const rating = star.dataset.rating;
+          alert(`You rated "${movie['Movie Name']}" ${rating} stars.`);
+        });
+      });
+    </script>
+  </body>
+</html>

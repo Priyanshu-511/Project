@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <style>
+        body {
+            background-color: #189ad3;
+            position: relative;
+            background-repeat: no-repeat;
+            background-position: center;
+        }
+        
+        #signup-form {
+            text-align: center;
+            position: relative;
+            border: 2px solid rgb(0, 0, 0.5);
+            border-radius: 10px;
+            height: 100%;
+            width: 25%;
+            top: 200px;
+            left: 450px;
+            backdrop-filter: blur(5px);
+            color: #bccad0;
+        }
+        
+    </style>
+</head>
+<body>
+    <form id="signup-form">
+        <h2>Sign Up</h2>
+        <label for="username">Username:</label>
+        <input type="text" id="username" name="username" required>
+        <br><br>
+        <label for="password">Password:</label>
+        <input type="password" id="password" name="password" required>
+        <br>
+        <button type="submit">Sign Up</button>
+        <br>
+        <p>Already have an account? <a href="login.html">Login</a></p>
+    </form>
+
+    <div id="modal">
+        <div id="modal-content">
+            <span id="close">&times;</span>
+            <p>Registration successful!</p>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('signup-form').addEventListener('submit', function(event) {
+            event.preventDefault();
+            const username = document.getElementById('username').value.trim();
+            const password = document.getElementById('password').value.trim();
+
+            if (!username ||!password) {
+                alert('Please enter both username and password.');
+                return;
+            }
+
+            document.getElementById('modal').style.display = 'block';
+            setTimeout(function() {
+                window.location.href = '/movies.html';
+            }, 2000);
+        });
+
+        document.getElementById('close').addEventListener('click', function() {
+            document.getElementById('modal').style.display = 'none';
+        });
+    </script>
+</body>
+</html>

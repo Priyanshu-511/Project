@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>MoVie MAnia</title>
+    <style>
+      body {
+        background-color: #189ad3;
+        color: #bccad0;
+        text-align: center;
+      }
+      h1 {
+        position: relative;
+        border: 1px solid black;
+        border-radius: 1000px;
+        border-width: 480px;
+        background-color: #189bd3;
+        bottom: 450px;
+      }
+      #movie-search {
+        position: relative;
+        bottom: 900px;
+      }
+      #search-btn {
+        position: relative;
+        bottom: 900px;
+      }
+      #movie-info {
+        position: relative;
+        bottom: 900px;
+      }
+      #regist1 {
+        position: absolute;
+        bottom: 500px;
+        left: 1000px;
+      }
+      #regist2 {
+        position: absolute;
+        bottom: 460px;
+        left: 1000px;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Movie Search</h1>
+    <input type="text" id="movie-search" placeholder="movie name" />
+    <button id="search-btn">Search</button>
+    <div id="movie-info"></div>
+    <p  id="regist1">Have you an account?<a href="login.html">Login</a></p>
+    <p  id="regist2">You don't have any account?<a href="signup.html">Sign up</a></p>
+
+    <script>const movieSearch = document.getElementById('movie-search');
+        const searchBtn = document.getElementById('search-btn');
+        const movieInfo = document.getElementById('movie-info');
+        
+        searchBtn.addEventListener('click', () => {
+          const movieTitle = movieSearch.value.trim();
+          if (!movieTitle) {
+            alert('Please enter a movie title');
+            return;
+          }
+        
+          fetch(`movies.json`)
+            .then(response => response.json())
+            .then(data => {
+              const movie = data.find(m => m['Movie Name'].toLowerCase() === movieTitle.toLowerCase());
+              if (!movie) {
+                movieInfo.textContent = `No movie found with title "${movieTitle}"`;
+                return;
+              }
+        
+              movieInfo.innerHTML = `
+                <h2 class="Movie">${movie['Movie Name']} (${movie['Year']})</h2>
+                <img src="${movie['Image']}" alt="${movie['Movie Name']}" />
+                <p class="Director"><strong>Director:</strong> ${movie['Director']}</p>
+                <p class="starrer"><strong>Starrer:</strong> ${movie['Starrer']}</p>
+                <p class="Genere"><strong>Genere:</strong> ${movie['Genere']}</p>
+                <p class="Summary"><strong>Summary:</strong> ${movie['Summary']}</p>
+                <p class="Runtime"><strong>Runtime and rating:</strong> ${movie['Run time & Rated']}</p>
+                <p class="IMDb"><strong>IMDb:</strong> ${movie['IMDb-Rating']}</p>
+                <p class="voting"><strong>Voting:</strong> ${movie['Voting']}</p>
+              `;
+            })
+            .catch(error => {
+              console.error('Error fetching data:', error);
+              movieInfo.textContent = 'An error occurred while searching for the movie.';
+            });
+        });</script>
+  </body>
+</html>
