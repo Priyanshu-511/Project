@@ -1,16 +1,14 @@
-Basic Output Checker:-
+Basic Output Checker:
 
-This version is not much advance.
-I got motivation to do this my lab exam.
+This version is not very advanced.
+I got the motivation to create this from my lab exam.
 
-only i have to write function in main.cpp and change line 33 as per function and some minor changes  for test-cases.
+I only need to write the function in main.cpp and modify line 33 according to the function, along with some minor changes for the test cases.
 
-and put input with comma sign in input.txt
-for example:= {2,5,67,89}
+Input should be placed in input.txt with commas separating the values, for example: {2,5,67,89}.
 
-rest in output put it with space sign in output.txt
-for example:= {4 10 134 178 }
+The output should be placed in output.txt with spaces separating the values, for example: {4 10 134 178 }.
 
-it's slight char-sensitive as per run.txt and output.txt both are trailing sensitive.
+It is slightly case-sensitive as both run.txt and output.txt are trailing sensitive.
 
-to run it write make in terminal oviously in makefile in that directory.
+To run it, type make in the terminal, obviously with the Makefile in that directory.
