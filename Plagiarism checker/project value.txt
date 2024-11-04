@@ -1,0 +1,11 @@
+Plagiarism Checker: A software tool that scans a text for duplicated content, such as paraphrased material, quoted material, or similar wording.
+
+As part of a course project, I am very grateful to Prof. Ashutosh Kumar Gupta for giving us a project that takes our learning to a whole new level.
+
+This project has allowed us to explore important concepts in depth and understand the practical implications of our studies.
+
+ Working on it has encouraged collaboration among classmates, fostering a supportive learning environment.
+
+Additionally, we have gained valuable skills in research and critical thinking that will benefit us in our future careers.
+
+Overall, this experience has been enriching and has enhanced our appreciation for the subject matter.
