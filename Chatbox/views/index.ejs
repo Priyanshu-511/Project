@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= title %></title>
+    <meta name="description" content="<%= description %>">
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <style>
+    /* Slower Gradient Animation */
+    body {
+        background: linear-gradient(45deg, #ff0000, #0000ff, #ee82ee, #00ff00, #800080);
+        background-size: 400% 400%;
+        animation: gradientMove 25s ease infinite;
+        min-height: 100vh;
+        position: relative;
+    }
+
+    /* Blurred overlay for better readability */
+    body::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(255, 255, 255, 0.05);
+        backdrop-filter: blur(5px);
+        z-index: -1;
+    }
+
+    /* Stable Chat Container */
+    .chat-container {
+        height: 70vh;
+        transform: perspective(1000px) rotateX(0.5deg) rotateY(-0.5deg);
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(10px);
+        border-radius: 20px;
+        box-shadow: 0 20px 50px rgba(0, 0, 0, 0.2);
+        position: relative;
+        z-index: 1;
+        transition: all 0.3s ease;
+    }
+
+    /* Reduced text shadow for clarity */
+    h1 {
+        text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+        color: white;
+        position: relative;
+        z-index: 2;
+    }
+
+    /* Slower gradient animation */
+    @keyframes gradientMove {
+        0% { background-position: 0% 50%; }
+        50% { background-position: 100% 50%; }
+        100% { background-position: 0% 50%; }
+    }
+
+    /* Simplified message animation */
+    .message-enter { 
+        animation: fadeIn 0.3s ease-in;
+    }
+
+    /* Better contrast for messages */
+    #chat-messages {
+        color: #1a1a1a;
+        font-weight: 500;
+    }
+
+    /* Stable input field */
+    #user-input {
+        background: rgba(255, 255, 255, 0.9);
+        border: 2px solid rgba(0, 0, 0, 0.1);
+    }
+</style>
+</head>
+<body class="bg-gray-100">
+    <div class="container mx-auto px-4 py-8">
+        <h1 class="text-4xl font-bold text-center mb-8 text-blue-600">AI Assistant</h1>
+        
+        <div class="bg-white rounded-lg shadow-lg p-4 chat-container flex flex-col">
+            <div id="chat-messages" class="flex-1 overflow-y-auto mb-4 space-y-4">
+                <!-- Messages will be inserted here -->
+            </div>
+            
+            <div class="border-t pt-4">
+                <div class="flex gap-2">
+                    <input type="text" id="user-input" 
+                           class="flex-1 p-2 border rounded-lg focus:ring-2 focus:ring-blue-500"
+                           placeholder="Type your message..."
+                           autocomplete="off">
+                    <button id="send-btn" 
+                            class="bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 
+                                   disabled:opacity-50 transition-all duration-200">
+                        Send
+                    </button>
+                </div>
+                <p class="text-gray-500 text-sm mt-2">Developer Priyanshu Kumar</p>
+            </div>
+        </div>
+    </div>
+
+    <script src="/script.js"></script>
+</body>
+</html>
