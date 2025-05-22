@@ -22,10 +22,9 @@ npm install express axios dotenv
 2. Run the Application
 To start the server, run:
 
-bash
-Copy
-Edit
+```bash
 npm start
+```
 💡 Note
 Since the official ChatGPT API is paid, this project uses the Together.ai API — a free alternative that provides access to powerful language models.
 
