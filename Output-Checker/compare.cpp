@@ -8,18 +8,20 @@ int main(){
     string str1,str2;
     ifstream out1,out2;
     out1.open("output.txt");
-    while(!out1.eof()){
-        getline(out1,str1);
+    // FIXED: Use getline instead of eof() - eof() is unreliable
+    while(getline(out1,str1)){ 
+        // Read last line
     }
     out1.close();
-     out2.open("run.txt");
-     while(!out2.eof()){
-        getline(out2,str2);
+    
+    out2.open("run.txt");
+    // FIXED: Use getline instead of eof() - eof() is unreliable
+    while(getline(out2,str2)){ 
+        // Read last line
     }
     out2.close();
 
-    stringstream s1(str1);
-    stringstream s2(str2);
+    // FIXED: Removed unused stringstream objects s1 and s2
     
     if(str1==str2){
         cout<<"Test-case passed:\n";
