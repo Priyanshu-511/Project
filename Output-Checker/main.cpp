@@ -12,15 +12,16 @@ T fun(T inp){       /*If you change function then change line-32 also as require
 int main(){
     string str;
     ifstream file("input.txt");
-    if(!file.is_open()){
+    if(!file.is_open()){ 
         ofstream err("run.txt");
         string error = "input file isn't opened: \n";
         err<<error;
         err.close();
         return -1;
     }
-    while(!file.eof()){
-        getline(file,str);
+    // FIXED: Use getline properly instead of eof() - eof() is unreliable
+    while(getline(file,str)){ 
+        // Now str contains each line - processes the last one
     }
     file.close();
     Timer T;
